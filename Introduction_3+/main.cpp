@@ -16,8 +16,9 @@
 #include "Shader.h"
 #include "MyGLWindow.h"
 #include "Camera.h"
+#include "Texture.h"
 
-#include "stb_image.h"
+//#include "stb_image.h"
 
 //const GLint WIDTH = 800, HEIGHT = 600;
 const float toRadians = 3.14159262f / 180.f;
@@ -27,26 +28,18 @@ std::vector<Mesh*> meshList;
 std::vector<Shader*> shaderList;
 Camera camera;
 
+Texture brickTexture;
+Texture dirtTexture;
+
 GLfloat deltaTime = 0.0f;
 GLfloat lastTime = 0.0;
-
-//// FOR UNIFORM VARIABLES
-//bool direction = true;
-//float triOffset = 0.0f;
-//float triMaxOffset = 0.7f;
-//float triIncrement = 0.005f;
-//
-//float currentAngle = 0;
-//
-//bool sizeDirection = true;
-//float curSize = 0.4f;
-//float maxSize = 0.8f;
-//float minSize = 0.1f;
 
 // Vertex Shader
 static const char* vShader = "Shaders/shader.vert";
 //Fragment shader
 static const char * fShader = "Shaders/shader.frag";
+
+//const char * brickTexturepath = "Textures/brick.png";
 
 void CreateObjects() {
 	//INDEX DRAW STUFF (also IBO at start)
@@ -58,18 +51,19 @@ void CreateObjects() {
 	};
 
 	GLfloat vertices[] = {
-		-1.0f, -1.0f, 0.0f,
-		0.0f, -1.0f, 1.0f,
-		1.0f, -1.0f, 0.0f,
-		0.0f, 1.0f, 0.0f
+		// x    y      z	  u		v
+		-1.0f, -1.0f, 0.0f,  0.0f, 0.0f,
+		0.0f, -1.0f, 1.0f,	 0.5, 0.0f, 
+		1.0f, -1.0f, 0.0f,	 1.0f, 0.0f,
+		0.0f, 1.0f, 0.0f,	 0.5f, 1.0f
 	};
 
 	Mesh *obj1 = new Mesh();
-	obj1->CreateMesh(vertices, indicies, 12, 12);
+	obj1->CreateMesh(vertices, indicies, 20, 12);
 	meshList.push_back(obj1);
 
 	Mesh *obj2 = new Mesh();
-	obj2->CreateMesh(vertices, indicies, 12, 12);
+	obj2->CreateMesh(vertices, indicies, 20, 12);
 	meshList.push_back(obj2);
 	
 }
@@ -93,6 +87,11 @@ int main()
 	// camera init
 	camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f, 5.0f, 0.5f);
 
+	brickTexture = Texture("Textures/brick.png");
+	brickTexture.LoadTexture();
+	dirtTexture = Texture("Textures/dirt.png");
+	dirtTexture.LoadTexture();
+
 	// uniformView is for camera
 	GLuint uniformProjection = 0, uniformModel = 0, uniformView = 0;
 	glm::mat4 projection = glm::perspective(45.0f, (GLfloat)mainWindow.getBufferWidth() / mainWindow.getBufferHeight(), 0.1f, 100.0f);
@@ -104,43 +103,6 @@ int main()
 		GLfloat now = glfwGetTime();
 		deltaTime = now - lastTime;
 		lastTime = now; 
-
-		
-
-		// CODING UNIFORM VARIABLES
-		//if (direction)
-		//{
-		//	triOffset += triIncrement;
-		//}
-		//else
-		//{
-		//	triOffset -= triIncrement;
-		//}
-
-		//if (abs(triOffset) >= triMaxOffset)
-		//{
-		//	direction = !direction;
-		//}
-
-		//currentAngle += 0.1f;
-		//if (currentAngle >= 360)
-		//{
-		//	currentAngle = 0;
-		//}
-
-		//if (direction)
-		//{
-		//	curSize += 0.002f;
-		//}
-		//else
-		//{
-		//	curSize -= 0.002f;
-		//}
-
-		//if (curSize >= maxSize || curSize <= minSize)
-		//{
-		//	sizeDirection = !sizeDirection;
-		//}
 
 		// s cim ocistiti sto
 		// clear window
@@ -161,12 +123,14 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));	
 		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera.calculateViewMatrix()));
+		brickTexture.UseTexture();
 		meshList[0]->RenderMesh();
 
 		model = glm::mat4{ 1.0f };
 		model = glm::translate(model, glm::vec3(0.0f, 1.0f, -2.5f));
 		model = glm::scale(model, glm::vec3(0.4f, 0.4, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		dirtTexture.UseTexture();
 		meshList[1]->RenderMesh();
 
 		//unassign shader

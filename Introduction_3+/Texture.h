@@ -1,5 +1,5 @@
 #pragma once
-#define STB_IMAGE_IMPLEMENTATION
+//#define STB_IMAGE_IMPLEMENTATION
 #include <GL\glew.h>
 
 #include "stb_image.h"
@@ -8,7 +8,7 @@ class Texture
 {
 public:
 	Texture();
-	Texture(char* fileLoc);
+	Texture(const char* fileLoc);
 	~Texture();
 
 	void LoadTexture();
