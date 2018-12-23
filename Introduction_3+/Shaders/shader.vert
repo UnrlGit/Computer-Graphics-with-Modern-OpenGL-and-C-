@@ -15,4 +15,4 @@ void main()
 	vertexColor = vec4(clamp(pos, 0.0f, 1.0f), 1.0f);
 
 	TexCoord = tex;
-};
+}
