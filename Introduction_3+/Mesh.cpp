@@ -34,13 +34,14 @@ void Mesh::CreateMesh(GLfloat * vertices, unsigned int * indicies, unsigned int 
 
 	// goes to (location = 0) in shader?
 	// adding stride for texture (5th value)
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices[0])*5, 0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices[0])*8, 0);
 
 	glEnableVertexAttribArray(0);
 	//for texture? for shader: 3 is offset
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(vertices[0]) * 5, (void*)(sizeof(vertices[0]) * 3));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(vertices[0]) * 8, (void*)(sizeof(vertices[0]) * 3));
 	glEnableVertexAttribArray(1);
-
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(vertices[0]) * 8, (void*)(sizeof(vertices[0]) * 5));
+	glEnableVertexAttribArray(2);
 	// unbinding?
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
