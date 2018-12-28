@@ -3,5 +3,4 @@
 *.tlog
 *.idb
 *.filters
-debug/
-Indroduction_3+/debug/
+**/debug
