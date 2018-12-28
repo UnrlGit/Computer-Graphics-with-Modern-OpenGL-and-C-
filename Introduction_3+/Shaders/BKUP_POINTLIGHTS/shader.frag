@@ -13,6 +13,7 @@ struct Light
 {
 	vec3 colour;
 	float ambientIntensity;
+	vec3 direction;
 	float diffuseIntensity;
 };
 
@@ -22,7 +23,7 @@ struct DirectionalLight
 	vec3 direction;
 };
 
-struct PointLight
+struct PointLight 
 {
 	Light base;
 	vec3 position;
@@ -47,22 +48,23 @@ uniform Material material;
 
 uniform vec3 eyePosition;
 
+
 vec4 CalcLightByDirection(Light light, vec3 direction)
 {
 	vec4 ambientColour = vec4(light.colour, 1.0f) * light.ambientIntensity;
 	
 	float diffuseFactor = max(dot(normalize(Normal), normalize(direction)), 0.0f);
-	vec4 diffuseColour = vec4(light.colour * light.diffuseIntensity * diffuseFactor, 1.0f);
+	vec4 diffuseColour = vec4(light.colour, 1.0f) * light.diffuseIntensity * diffuseFactor;
 	
 	vec4 specularColour = vec4(0, 0, 0, 0);
-	
 	if(diffuseFactor > 0.0f)
 	{
 		vec3 fragToEye = normalize(eyePosition - FragPos);
 		vec3 reflectedVertex = normalize(reflect(direction, normalize(Normal)));
 		
 		float specularFactor = dot(fragToEye, reflectedVertex);
-		if(specularFactor > 0.0f)
+		
+		if(specularFactor >0)
 		{
 			specularFactor = pow(specularFactor, material.shininess);
 			specularColour = vec4(light.colour * material.specularIntensity * specularFactor, 1.0f);
@@ -93,7 +95,7 @@ vec4 CalcPointLights()
 							pointLights[i].linear * distance +
 							pointLights[i].constant;
 							
-		totalColour += (colour /attenuation);
+		totalColour =+ (colour /attenuation);
 	}
 	
 	return totalColour;
