@@ -3,5 +3,5 @@
 *.tlog
 *.idb
 *.filters
-**/debug
-**/.vs
+Debug/
+.vs/
