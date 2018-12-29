@@ -16,9 +16,10 @@ public:
 	Model();
 	~Model();
 
-	void LoadModel(const std::string& filename);
+	void LoadModel(const std::string& filename, std::string subfolder);
 	void RenderModel();
 	void ClearModel();
+
 
 private:
 	void LoadNode(aiNode *node, const aiScene *scene);
@@ -28,5 +29,7 @@ private:
 	std::vector<Mesh*> meshList;
 	std::vector<Texture*> textureList;
 	std::vector<unsigned int> meshToTex;
+
+	std::string _subfolder;
 };
 

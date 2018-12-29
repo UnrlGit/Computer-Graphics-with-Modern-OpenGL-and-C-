@@ -23,6 +23,7 @@
 #include "PointLight.h"
 #include "Material.h"
 #include "SpotLight.h"
+#include "Model.h"
 
 #include <assimp\Importer.hpp>
 
@@ -42,6 +43,10 @@ Texture plainTexture;
 
 Material shinyMaterial;
 Material dullMaterial;
+
+Model xwing;
+Model blackhawk;
+//Model emperorsShip;
 
 DirectionalLight mainLight;
 PointLight pointLights[MAX_POINT_LIGHTS];
@@ -170,8 +175,18 @@ int main()
 	dullMaterial = Material(0.3f, 4);
 	//plainMaterial = Material(0.3f, 4);
 
+	xwing = Model();
+	xwing.LoadModel("Models/x-wing.obj", "Xwing");
+
+	blackhawk = Model();
+	blackhawk.LoadModel("Models/uh60.obj", "Blackhawk");
+
+	/*emperorsShip = Model();
+	emperorsShip.LoadModel("Models/Star Wars emperor shuttle.obj");*/
+
+
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
-									0.1f, 0.1f,
+									0.2f, 0.6f,
 									0.0f, 0.0f, -1.0f);
 
 	unsigned int pointLightCount = 0;
@@ -238,8 +253,8 @@ int main()
 		glm::vec3 lowerLight = camera.getCameraPosition();
 		lowerLight.y -= 0.3f;
 		lowerLight.x += 1.0f;
-		//attaching light to camera
-		spotLights[0].SetFlash(lowerLight, camera.getCameraDirection());
+		//attaching spot light to camera
+		//spotLights[0].SetFlash(lowerLight, camera.getCameraDirection());
 
 		shaderList[0]->SetDirectionalLight(&mainLight);
 		shaderList[0]->SetPointLight(pointLights, pointLightCount);
@@ -277,6 +292,32 @@ int main()
 		shinyMaterial.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		meshList[2]->RenderMesh();
 
+		// FOR XWING
+		model = glm::mat4{ 1.0f };
+		model = glm::translate(model, glm::vec3(-7.0f, 0.0f, 10.0f));
+		model = glm::scale(model, glm::vec3(0.006f, 0.006f, 0.006f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		shinyMaterial.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		xwing.RenderModel();
+
+		// FOR blackhawk
+		model = glm::mat4{ 1.0f };
+		model = glm::translate(model, glm::vec3(-3.0f, 2.0f, 0.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+		
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		shinyMaterial.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		blackhawk.RenderModel();
+
+		// FOR emperors
+	/*	model = glm::mat4{ 1.0f };
+		model = glm::translate(model, glm::vec3(-3.0f, 2.0f, 3.0f));
+		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		shinyMaterial.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		emperorsShip.RenderModel();
+*/
 		//unassign shader
 		glUseProgram(0);
 
