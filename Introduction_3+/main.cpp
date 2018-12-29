@@ -46,7 +46,9 @@ Material dullMaterial;
 
 Model xwing;
 Model blackhawk;
-//Model emperorsShip;
+Model testModel;
+Model imperialStarDestroyer;
+
 
 DirectionalLight mainLight;
 PointLight pointLights[MAX_POINT_LIGHTS];
@@ -181,9 +183,12 @@ int main()
 	blackhawk = Model();
 	blackhawk.LoadModel("Models/uh60.obj", "Blackhawk");
 
-	/*emperorsShip = Model();
-	emperorsShip.LoadModel("Models/Star Wars emperor shuttle.obj");*/
+	testModel = Model();
+	testModel.LoadModel("Models/voyager.obj", "Voyager"); 
 
+
+	imperialStarDestroyer = Model();
+	imperialStarDestroyer.LoadModel("Models/imperial.obj", "Imp");
 
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
 									0.2f, 0.6f,
@@ -310,14 +315,24 @@ int main()
 		shinyMaterial.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		blackhawk.RenderModel();
 
-		// FOR emperors
-	/*	model = glm::mat4{ 1.0f };
-		model = glm::translate(model, glm::vec3(-3.0f, 2.0f, 3.0f));
-		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+		// FOR voyager
+		model = glm::mat4{ 1.0f };
+		model = glm::translate(model, glm::vec3(-3.0f, 4.0f, 3.0f));
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		shinyMaterial.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		emperorsShip.RenderModel();
-*/
+		testModel.RenderModel();
+
+		// FOR imperial
+		model = glm::mat4{ 1.0f };
+		model = glm::translate(model, glm::vec3(100.0f, 0.0f, 50.0f));
+		model = glm::scale(model, glm::vec3(0.0033f, 0.0033f, 0.0033f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		shinyMaterial.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		imperialStarDestroyer.RenderModel();
+
+	
+
 		//unassign shader
 		glUseProgram(0);
 
