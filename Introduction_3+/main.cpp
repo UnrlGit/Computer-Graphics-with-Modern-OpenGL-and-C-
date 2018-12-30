@@ -48,6 +48,9 @@ Model xwing;
 Model blackhawk;
 Model testModel;
 Model imperialStarDestroyer;
+Model moon;
+Model sun;
+
 
 
 DirectionalLight mainLight;
@@ -183,12 +186,18 @@ int main()
 	blackhawk = Model();
 	blackhawk.LoadModel("Models/uh60.obj", "Blackhawk");
 
-	testModel = Model();
-	testModel.LoadModel("Models/voyager.obj", "Voyager"); 
+	//testModel = Model();
+	//testModel.LoadModel("Models/voyager.obj", "Voyager"); 
 
 
-	imperialStarDestroyer = Model();
-	imperialStarDestroyer.LoadModel("Models/imperial.obj", "Imp");
+	//imperialStarDestroyer = Model();
+	//imperialStarDestroyer.LoadModel("Models/imperial.obj", "Imp");
+
+	//sun = Model();
+	//sun.LoadModel("Models/sol.obj", "Sun");
+
+	//moon =  Model();
+	//moon.LoadModel("Models/Death_Star.obj", "DeathStar");
 
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
 									0.2f, 0.6f,
@@ -315,21 +324,31 @@ int main()
 		shinyMaterial.UseMaterial(uniformSpecularIntensity, uniformShininess);
 		blackhawk.RenderModel();
 
-		// FOR voyager
-		model = glm::mat4{ 1.0f };
-		model = glm::translate(model, glm::vec3(-3.0f, 4.0f, 3.0f));
-		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		shinyMaterial.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		testModel.RenderModel();
+		//// FOR voyager
+		//model = glm::mat4{ 1.0f };
+		//model = glm::translate(model, glm::vec3(-3.0f, 4.0f, 3.0f));
+		//model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//shinyMaterial.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		//testModel.RenderModel();
 
-		// FOR imperial
-		model = glm::mat4{ 1.0f };
-		model = glm::translate(model, glm::vec3(100.0f, 0.0f, 50.0f));
-		model = glm::scale(model, glm::vec3(0.0033f, 0.0033f, 0.0033f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		shinyMaterial.UseMaterial(uniformSpecularIntensity, uniformShininess);
-		imperialStarDestroyer.RenderModel();
+		//// FOR imperial
+		//model = glm::mat4{ 1.0f };
+		//model = glm::translate(model, glm::vec3(100.0f, 0.0f, 50.0f));
+		//model = glm::scale(model, glm::vec3(0.0033f, 0.0033f, 0.0033f));
+		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//shinyMaterial.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		//imperialStarDestroyer.RenderModel();
+
+		//// FOR moon
+		//model = glm::mat4{ 1.0f };
+		//model = glm::translate(model, glm::vec3(-3.0f, -10.0f, 3.0f));
+		//model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//shinyMaterial.UseMaterial(uniformSpecularIntensity, uniformShininess);
+		//moon.RenderModel();
+
+	
 
 	
 
